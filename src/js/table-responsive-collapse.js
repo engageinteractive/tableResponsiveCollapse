@@ -9,13 +9,25 @@
 
 		this.each(function() {
 
-			var $trc = $(this);
-			var options = $.extend({}, instanceOptions, $trc.data());
+			var $trc = $(this),
+			    trc,
+			    options = $.extend({}, instanceOptions, $trc.data());
 
 			$trc = {
 				root: $trc,
 				headers: $trc.find('thead th'),
 				rows: $trc.find('tbody tr'),
+			};
+
+			trc = {
+				updateView: function(){
+
+					$trc.root.toggleClass(
+						'table-responsive-collapse--collapsed',
+						viewport.width() < options.breakpoint
+					);
+
+				}
 			};
 
 			$trc.headers.each(function() {
@@ -31,14 +43,11 @@
 
 				if (!x) return;
 
-				$trc.root.toggleClass(
-					'table-responsive-collapse--collapsed',
-					core.width < options.breakpoint
-				);
+				trc.updateView();
 
 			};
 
-			core.resize['tableResponsiveCollapse-' + count]();
+			trc.updateView();
 
 			count += 1;
 
